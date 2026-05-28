@@ -1,6 +1,5 @@
 use crate::utilities::utils::create_periodic_table;
 use clap::Args;
-use serde::{Deserialize, Serialize};
 use serde_json::Value;
 #[derive(Debug, Clone, Args,)]
 #[command(args_conflicts_with_subcommands = true)]
@@ -170,7 +169,7 @@ pub fn exec(args: &ElementsArgs) {
         .collect::<Vec<Value>>()
         .iter()
         .map(|e| e.to_string())
-        .map(|e| e.replace(&['\"', '\\'], ""))
+        .map(|e| e.replace(['\"', '\\'], ""))
         .collect::<Vec<String>>();
 
     let element_electronegativity = set_electronegativity();
@@ -242,7 +241,7 @@ pub fn exec(args: &ElementsArgs) {
         );
     }
     if args.group {
-        if element_group == "None".to_string() {
+        if element_group == "None" {
             println!("The element {} is not a member of any group.", element_name);
         } else {
             println!(
