@@ -1,60 +1,100 @@
-# chemicli
+# ChemiCLI
 
+ChemiCLI is a command-line interface for querying information about the periodic table of elements. It provides detailed properties for individual elements and information about various chemical series.
 
-## About
+## Features
 
-#### ChemiCLI is A CLI for getting information about the periodic table of elements, with information somewhat based on the information on [PTable](https://ptable.com/#Properties), hence some measurements may not be the most precise in terms of the known values for certain properties, i.e the standard atomic weight of hydrogen is `[1.00784, 1.00811]`, but is `1.008` on PTable.
-
-## Getting Started
-
-To install ChemiCLI, you'll need to have Rust and Cargo installed. If you don't have them yet, you can install Rust via [rustup](https://rustup.rs/).
+- **Element Querying**: Retrieve atomic number, weight, energy levels, electronegativity, and more by atomic symbol.
+- **Metal Series**: Explore subgroups of metals including Alkali, Alkaline Earth, Lanthanoids, Actinoids, Transition, and Post-transition metals.
+- **Local Data**: Uses a local JSON-based periodic table for fast, offline access.
 
 ## Installation
 
-Run `git clone https://github.com/overoxidize/chemicli.git` in your terminal to install it.
+To install ChemiCLI, you need to have [Rust and Cargo](https://rustup.rs/) installed.
+
+1. Clone the repository:
+   ```sh
+   git clone https://github.com/overoxidize/chemicli.git
+   cd chemicli
+   ```
+
+2. Build the project:
+   ```sh
+   cargo build --release
+   ```
+
+The binary will be available at `target/release/chemicli`.
 
 ## Usage
 
 ```sh
-chemicli.exe element <ATOMIC_SYMBOL> [OPTIONS]
+chemicli <COMMAND>
 ```
 
-### Arguments
+### Element Command
 
-- `<ATOMIC_SYMBOL>`: The atomic symbol of the element you want to query.
+Query information about a specific element using its atomic symbol.
 
-### Options
+```sh
+chemicli element <ATOMIC_SYMBOL> [OPTIONS]
+```
 
-- `-n, --atomic-number`: Include the atomic number of the given element.
-- `-w, --atomic-weight`: Include the atomic weight of the given element.
-- `-l, --energy-levels`: Include the energy levels of the given element.
-- `-e, --electronegativity`: Include the electronegativity of the given element.
-- `-s, --series`: Include the series of the given element.
-- `-d, --date-discovered`: Include the discovery date of the given element.
-- `-D, --discoverer`: Include the discoverer of the given element.
-- `-g, --group`: Include the group of the given element.
-- `-p, --period`: Include the period of the given element.
-- `-h, --help`: Print help.
+**Options:**
+- `-n, --atomic-number`: Include the atomic number.
+- `-w, --atomic-weight`: Include the atomic weight.
+- `-l, --energy-levels`: Include the energy levels.
+- `-e, --electronegativity`: Include the electronegativity.
+- `-s, --series`: Include the series.
+- `-d, --date-discovered`: Include the discovery date.
+- `-D, --discoverer`: Include the discoverer.
+- `-g, --group`: Include the group.
+- `-p, --period`: Include the period.
+
+### Metals Command
+
+Query information about specific metal series. Alias: `mtl`.
+
+```sh
+chemicli metals <SUBCOMMAND> [OPTIONS]
+```
+
+**Subcommands:**
+- `alkali` (alias: `alki`)
+- `alkaline` (alias: `alkn`)
+- `lanthanoids` (aliases: `lan`, `lanthanides`)
+- `actinoids` (aliases: `act`, `actinides`)
+- `transition` (alias: `trans`)
+- `post-transition` (alias: `post`)
+
+**Options:**
+- `-m, --members`: List all members of the series.
+- `-n, --number`: Show the total number of members in the series.
 
 ## Examples
 
-- To query the atomic number of oxygen:
+- Get the atomic number of Oxygen:
   ```sh
-  chemicli.exe element O -n
+  chemicli element O -n
   ```
 
-- To query the atomic weight and group of iron:
+- List all Alkali metals:
   ```sh
-  chemicli.exe element Fe -w -g
+  chemicli mtl alkali --members
+  ```
+
+- Get the atomic weight and period of Iron:
+  ```sh
+  chemicli element Fe -w -p
   ```
 
 ## Data Source
 
-ChemiCLI uses a local JSON object containing information about the chemical elements. This JSON object is based on the periodic table and is stored within the application.
-    
+ChemiCLI uses a local JSON file located at `data/periodic_table.json`. The data is based on information from [PTable](https://ptable.com/), though some values may vary slightly from standard IUPAC values.
+
 ## Roadmap
 
-* Add `mtl` command, i.e `chem mtl ...`, to query about metals.
-  * Add `sg` (subgroup) subcommand, i.e `chem mtl -sg` for a list of sub-groups of metals, such as alkali earth metals, and lanthanides.
-
-
+- [x] Implement `metals` (`mtl`) command with subgroup support.
+- [ ] Implement `metalloids` command.
+- [ ] Implement `nonmetals` command.
+- [ ] Add support for more detailed property comparisons.
+- [ ] Improve data precision against latest scientific standards.
